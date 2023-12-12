@@ -1,6 +1,6 @@
 export interface ShopeeConfig {
   host: string;
-  partner_id: number;
-  partner_key: string;
+  partnerId: number;
+  partnerKey: string;
   redirect: string;
 }

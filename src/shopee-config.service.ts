@@ -8,8 +8,8 @@ export class ShopeeConfigService {
     getConfig(): ShopeeConfig {
         return {
             host: this.configService.get<string>('SHOPEE_HOST'),
-            partner_id: +this.configService.get<string>('SHOPEE_PARTNER_ID'),
-            partner_key: this.configService.get<string>('SHOPEE_PARTNER_KEY'),
+            partnerId: +this.configService.get<string>('SHOPEE_PARTNER_ID'),
+            partnerKey: this.configService.get<string>('SHOPEE_PARTNER_KEY'),
             redirect: this.configService.get<string>('SHOPEE_AUTH_REDIRECT_URL'),
         };
     }
