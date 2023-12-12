@@ -5,6 +5,7 @@ import { Auth } from './resources/auth';
 import { ShopeeAuthResponseDto } from './dtos/shopee-auth.response.dto';
 import { Shop } from './resources/shop';
 import { ShopeeStoreUpdateDto } from './dtos/shopee-store.update.dto';
+import { ShopeeApiResponseDto } from './dtos/shopee-api.response.dto';
 
 @Injectable()
 export class ShopeeService {
@@ -104,10 +105,115 @@ export class ShopeeService {
     }
   }
 
-  public async getShopOrders(shopId: number, accessToken: string, params?: any): Promise<any> {
+  public async getShopOrders(shopId: number, accessToken: string, params?: any): Promise<ShopeeApiResponseDto> {
     this.validateShop(shopId, accessToken);
     try {
       return await this.shop.Order.getOderList(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getShopOrderDetail(
+    shopId: number,
+    accessToken: string,
+    orderSnList: string[],
+    responseOptionalFields?: string[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.getOderDetails({
+        order_sn_list: orderSnList,
+        response_optional_fields: responseOptionalFields,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async cancelShopOrder(
+    shopId: number,
+    accessToken: string,
+    orderSn: string,
+    cancelReason: string,
+    itemList?: any[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.cancelOrder({ order_sn: orderSn, cancel_reason: cancelReason, item_list: itemList });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getShopOrderShipments(shopId: number, accessToken: string, params?: any): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.getShipmentList(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getShippingParameters(
+    shopId: number,
+    accessToken: string,
+    orderSn: string,
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.getShippingParams({ order_sn: orderSn });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async shipOrder(
+    shopId: number,
+    accessToken: string,
+    orderSn: string,
+    packageNumber: string,
+    pickup: any,
+    dropOff: any,
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.shipOrder({
+        order_sn: orderSn,
+        package_number: packageNumber,
+        pickup,
+        dropoff: dropOff,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateShipOrder(
+    shopId: number,
+    accessToken: string,
+    orderSn: string,
+    packageNumber: string,
+    pickup: any,
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.updateShipOrder({
+        order_sn: orderSn,
+        package_number: packageNumber,
+        pickup,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async batchShipOrder(shopId: number, accessToken: string, orderList: any[]): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.batchShipOrder({
+        order_list: orderList,
+      });
     } catch (error) {
       throw error;
     }
