@@ -4,7 +4,12 @@ import { ShopeeStore } from '../dtos/shopee-store.dto';
 import { ShopeeStoreUpdateDto } from '../dtos/shopee-store.update.dto';
 export class Shop {
   protected shopeeRequest: AxiosInstance;
+  public shopId: number;
+  public accessToken: string;
+
   constructor(params: { shopId: number; accessToken: string; onRefreshAccessToken?: () => Promise<string> }) {
+    this.shopId = params.shopId;
+    this.accessToken = params.accessToken;
     this.shopeeRequest = ShopeeRequest.getAuthorizedInstance({
       shopId: params.shopId,
       token: params.accessToken,
@@ -12,10 +17,10 @@ export class Shop {
     });
   }
 
-    /**
-     * Get store info from shopee
-     * @returns shopeeStoreResponse {}
-     */
+  /**
+   * Get store info from shopee
+   * @returns shopeeStoreResponse {}
+   */
   public async getShopInfo(): Promise<ShopeeStore> {
     const apiPath = 'shop/get_shop_info';
     const { data } = await this.shopeeRequest.get(apiPath);
