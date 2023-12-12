@@ -31,7 +31,7 @@ export class ShopeeRequest {
     return instance;
   }
 
-  static getShopInstance({
+  static getAuthorizedInstance({
     shopId,
     token,
     onRefreshAccessToken,
@@ -65,21 +65,12 @@ export class ShopeeRequest {
         return response;
       },
       async function (error) {
-        if (
-          error.response.data.error === 'error_auth' &&
-          onRefreshAccessToken
-        ) {
+        if (error.response.data.error === 'error_auth' && onRefreshAccessToken) {
           const newToken = await onRefreshAccessToken();
 
           const currentUrl = error.config.url;
           const parsedUrl = queryString.parseUrl(currentUrl);
-          const filteredQuery = [
-            'access_token',
-            'partner_id',
-            'shop_id',
-            'sign',
-            'timestamp',
-          ].reduce((acc, key) => {
+          const filteredQuery = ['access_token', 'partner_id', 'shop_id', 'sign', 'timestamp'].reduce((acc, key) => {
             delete parsedUrl.query[key];
             return parsedUrl.query;
           }, {});

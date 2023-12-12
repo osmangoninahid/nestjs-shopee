@@ -5,7 +5,7 @@ import { ShopeeAuthResponseDto } from '../dtos/shopee-auth.response.dto';
 import { generateQueryParams } from '../util';
 
 export class Auth {
-  private shopeeRequest: AxiosInstance;
+  protected shopeeRequest: AxiosInstance;
   private readonly shopeeConfig: ShopeeConfig;
   constructor(private config: ShopeeConfig) {
     this.shopeeRequest = ShopeeRequest.getInstance();
