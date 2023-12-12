@@ -103,4 +103,13 @@ export class ShopeeService {
       throw error;
     }
   }
+
+  public async getShopOrders(shopId: number, accessToken: string, params?: any): Promise<any> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Order.getOderList(params);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
