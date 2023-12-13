@@ -196,8 +196,8 @@ Uploads an image to the shop's media space.
   - `accessToken`: `string` - Access token for shop authentication.
   - `data`: `any` - Image data to be uploaded.
   - `headers` (optional): `any` - Additional headers for the upload.
-
-#### Order & Shipping Management
+---
+### Order & Shipping Management
 
 ##### `getShopOrders(shopId: number, accessToken: string, params?: any): Promise<ShopeeApiResponseDto>`
 
@@ -295,7 +295,7 @@ Processes batch shipping for multiple orders.
 
 ---
 
-#### Product and Inventory 
+### Product and Inventory 
 
 ##### `createProduct(shopId: number, accessToken: string, params: any): Promise<any>`
 
