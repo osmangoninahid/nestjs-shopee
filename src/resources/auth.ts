@@ -7,8 +7,8 @@ import { generateQueryParams } from '../util';
 export class Auth {
   protected shopeeRequest: AxiosInstance;
   private readonly shopeeConfig: ShopeeConfig;
-  constructor(private config: ShopeeConfig) {
-    this.shopeeRequest = ShopeeRequest.getInstance();
+  constructor(config: ShopeeConfig) {
+    this.shopeeRequest = ShopeeRequest.getInstance(config);
     this.shopeeConfig = config;
   }
 

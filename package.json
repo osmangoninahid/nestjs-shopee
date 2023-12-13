@@ -1,6 +1,6 @@
 {
   "name": "@osmangoninahid/nestjs-shopee",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "NestJS npm package for Shopee",
   "author": "Osman Goni Nahid <osmangoni.se@gmail.com>",
   "license": "MIT",

@@ -5,18 +5,26 @@ import { ShopeeStoreUpdateDto } from '../dtos';
 import { Order } from './order';
 import { Product } from './product';
 import { Logistic } from './logistic';
+import { ShopeeConfig } from '../shopee-config.interface';
 export class Shop {
   protected shopeeRequest: AxiosInstance;
+  public shopeeConfig: ShopeeConfig;
   public shopId: number;
   public accessToken: string;
   private order: Order;
   private product: Product;
   private logistic: Logistic;
 
-  constructor(params: { shopId: number; accessToken: string; onRefreshAccessToken?: () => Promise<string> }) {
+  constructor(params: {
+    shopeeConfig: ShopeeConfig;
+    shopId: number;
+    accessToken: string;
+    onRefreshAccessToken?: () => Promise<string>;
+  }) {
     this.shopId = params.shopId;
     this.accessToken = params.accessToken;
     this.shopeeRequest = ShopeeRequest.getAuthorizedInstance({
+      shopeeConfig: params.shopeeConfig,
       shopId: params.shopId,
       token: params.accessToken,
       onRefreshAccessToken: params.onRefreshAccessToken,

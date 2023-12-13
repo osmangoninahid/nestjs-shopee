@@ -7,23 +7,14 @@ import { generateQueryParams } from './util';
 
 @Injectable()
 export class ShopeeRequest {
-  private static shopeeConfig: ShopeeConfig;
-  constructor(@Inject(SHOPEE_CONFIG) private readonly configs: ShopeeConfig) {
-    ShopeeRequest.shopeeConfig = configs;
-  }
-
-  static getInstance(): AxiosInstance {
+  static getInstance(shopeeConfig: ShopeeConfig): AxiosInstance {
     const instance = axios.create({
-      baseURL: ShopeeRequest.shopeeConfig.host,
+      baseURL: shopeeConfig.host,
     });
     instance.interceptors.request.use(function (config) {
       const parsed = queryString.parseUrl('/api/v2/' + config.url);
       config.url =
-        generateQueryParams(
-          parsed.url,
-          ShopeeRequest.shopeeConfig.partnerId.toString(),
-          ShopeeRequest.shopeeConfig.partnerKey,
-        ) +
+        generateQueryParams(parsed.url, shopeeConfig.partnerId.toString(), shopeeConfig.partnerKey) +
         '&' +
         queryString.stringify(parsed.query);
       return config;
@@ -32,28 +23,24 @@ export class ShopeeRequest {
   }
 
   static getAuthorizedInstance({
+    shopeeConfig,
     shopId,
     token,
     onRefreshAccessToken,
   }: {
+    shopeeConfig: ShopeeConfig;
     shopId: number;
     token: string;
     onRefreshAccessToken?: () => Promise<string>;
   }): AxiosInstance {
     const instance = axios.create({
-      baseURL: ShopeeRequest.shopeeConfig.host,
+      baseURL: shopeeConfig.host,
     });
 
     instance.interceptors.request.use(async function (config) {
       const parsed = queryString.parseUrl('/api/v2/' + config.url);
       config.url =
-        generateQueryParams(
-          parsed.url,
-          ShopeeRequest.shopeeConfig.partnerId.toString(),
-          ShopeeRequest.shopeeConfig.partnerKey,
-          token,
-          shopId,
-        ) +
+        generateQueryParams(parsed.url, shopeeConfig.partnerId.toString(), shopeeConfig.partnerKey, token, shopId) +
         '&' +
         queryString.stringify(parsed.query);
       return config;
@@ -79,8 +66,8 @@ export class ShopeeRequest {
           config.url =
             generateQueryParams(
               parsedUrl.url,
-              ShopeeRequest.shopeeConfig.partnerId.toString(),
-              ShopeeRequest.shopeeConfig.partnerKey,
+              shopeeConfig.partnerId.toString(),
+              shopeeConfig.partnerKey,
               newToken,
               shopId,
             ) +

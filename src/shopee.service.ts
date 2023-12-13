@@ -2,17 +2,19 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SHOPEE_CONFIG } from './constants';
 import { ShopeeConfig } from './shopee-config.interface';
 import { Auth } from './resources/auth';
-import { ShopeeAuthResponseDto } from './dtos/shopee-auth.response.dto';
+import { ShopeeAuthResponseDto } from './dtos';
 import { Shop } from './resources/shop';
-import { ShopeeStoreUpdateDto } from './dtos/shopee-store.update.dto';
-import { ShopeeApiResponseDto } from './dtos/shopee-api.response.dto';
-import { ITEM_STATUS } from './dtos/item-status.enum';
+import { ShopeeStoreUpdateDto } from './dtos';
+import { ShopeeApiResponseDto } from './dtos';
+import { ITEM_STATUS } from './dtos';
 
 @Injectable()
 export class ShopeeService {
   private readonly auth: Auth;
   private shop: Shop;
+  private readonly configs: ShopeeConfig;
   constructor(@Inject(SHOPEE_CONFIG) private readonly shopeeConfig: ShopeeConfig) {
+    this.configs = shopeeConfig;
     this.auth = new Auth(shopeeConfig);
   }
 
@@ -58,6 +60,7 @@ export class ShopeeService {
 
   public initializeShop(shopId: number, accessToken: string, onRefreshAccessToken?: () => Promise<string>) {
     this.shop = new Shop({
+      shopeeConfig: this.configs,
       shopId,
       accessToken,
       onRefreshAccessToken,
