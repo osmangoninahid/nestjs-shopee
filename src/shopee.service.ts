@@ -6,6 +6,7 @@ import { ShopeeAuthResponseDto } from './dtos/shopee-auth.response.dto';
 import { Shop } from './resources/shop';
 import { ShopeeStoreUpdateDto } from './dtos/shopee-store.update.dto';
 import { ShopeeApiResponseDto } from './dtos/shopee-api.response.dto';
+import { ITEM_STATUS } from './dtos/item-status.enum';
 
 @Injectable()
 export class ShopeeService {
@@ -214,6 +215,177 @@ export class ShopeeService {
       return await this.shop.Order.batchShipOrder({
         order_list: orderList,
       });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async createProduct(shopId: number, accessToken: string, params: any): Promise<any> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.addItem(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateProduct(shopId: number, accessToken: string, params: any): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.updateItem(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getCategories(shopId: number, accessToken: string, params?: any): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getCategories(params);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getCategoryAttributes(
+    shopId: number,
+    accessToken: string,
+    categoryId: number,
+    language?: string,
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getAttributes({ category_id: categoryId, language });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async getBrandsByCategory(
+    shopId: number,
+    accessToken: string,
+    categoryId: number,
+    status: number,
+    pageSize: number,
+    offset?: number,
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getBrandList({ status, category_id: categoryId, page_size: pageSize, offset });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getProductList(
+    shopId: number,
+    accessToken: string,
+    pageSize: number,
+    offset: number,
+    status: ITEM_STATUS[],
+    updateTimeFrom?: number,
+    updateTimeTo?: number,
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getItemList({
+        offset,
+        page_size: pageSize,
+        item_status: status,
+        update_time_from: updateTimeFrom,
+        update_time_to: updateTimeTo,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getProductBaseInfo(
+    shopId: number,
+    accessToken: string,
+    productIds: number[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getItemBaseInfo({ item_id_list: productIds });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getProductExtraInfo(
+    shopId: number,
+    accessToken: string,
+    productIds: number[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getItemExtraInfo({ item_id_list: productIds });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getProductModels(shopId: number, accessToken: string, productId: number): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.getModelList({ item_id: productId });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateProductPrice(
+    shopId: number,
+    accessToken: string,
+    productId: number,
+    priceList: { model_id?: number; original_price: number }[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.updatePrice({ item_id: productId, price_list: priceList });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateProductStock(
+    shopId: number,
+    accessToken: string,
+    productId: number,
+    stockList: { model_id?: number; normal_stock: number }[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.updateStock({ item_id: productId, stock_list: stockList });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async initProductTier(
+    shopId: number,
+    accessToken: string,
+    productId: number,
+    tierVariations: { name?: number; option_list: { option: string; image: { image_id: string } }[] }[],
+    model: { tier_index: number[]; normal_stock: number; original_price: number; model_sku: string }[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.initializeTier({ item_id: productId, tier_variation: tierVariations, model });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async delistProduct(
+    shopId: number,
+    accessToken: string,
+    productList: { item_id: number; unlist: boolean }[],
+  ): Promise<ShopeeApiResponseDto> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Product.unlist_item({ item_list: productList });
     } catch (error) {
       throw error;
     }
