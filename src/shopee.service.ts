@@ -390,4 +390,13 @@ export class ShopeeService {
       throw error;
     }
   }
+
+  public async getLogisticChannels(shopId: number, accessToken: string): Promise<any> {
+    this.validateShop(shopId, accessToken);
+    try {
+      return await this.shop.Logistic.getChannelList();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -4,12 +4,14 @@ import { ShopeeStore } from '../dtos/shopee-store.dto';
 import { ShopeeStoreUpdateDto } from '../dtos/shopee-store.update.dto';
 import { Order } from './order';
 import { Product } from './product';
+import { Logistic } from './logistic';
 export class Shop {
   protected shopeeRequest: AxiosInstance;
   public shopId: number;
   public accessToken: string;
   private order: Order;
   private product: Product;
+  private logistic: Logistic;
 
   constructor(params: { shopId: number; accessToken: string; onRefreshAccessToken?: () => Promise<string> }) {
     this.shopId = params.shopId;
@@ -78,5 +80,10 @@ export class Shop {
   get Product() {
     if (!this.product) this.product = new Product(this.shopeeRequest);
     return this.product;
+  }
+
+  get Logistic() {
+    if (!this.logistic) this.logistic = new Logistic(this.shopeeRequest);
+    return this.logistic;
   }
 }
