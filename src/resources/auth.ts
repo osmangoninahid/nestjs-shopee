@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { ShopeeConfig } from '../shopee-config.interface';
 import { ShopeeRequest } from '../shopee.request';
-import { ShopeeAuthResponseDto } from '../dtos/shopee-auth.response.dto';
+import { ShopeeAuthResponseDto } from '../dtos';
 import { generateQueryParams } from '../util';
 
 export class Auth {

@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { ShopeeApiResponseDto } from '../dtos/shopee-api.response.dto';
-import { ITEM_STATUS } from '../dtos/item-status.enum';
+import { ShopeeApiResponseDto } from '../dtos';
+import { ITEM_STATUS } from '../dtos';
 
 export class Product {
   constructor(private shopeeRequest: AxiosInstance) {}

@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { ShopeeApiResponseDto } from '../dtos/shopee-api.response.dto';
+import { ShopeeApiResponseDto } from '../dtos';
 
 export class Order {
   constructor(private shopeeRequest: AxiosInstance) {}

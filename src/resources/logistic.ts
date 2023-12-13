@@ -4,7 +4,6 @@ export class Logistic {
 
   /**
    * Get Store Logistics information
-   * @param params
    * @returns {any}
    */
   async getChannelList(): Promise<any> {

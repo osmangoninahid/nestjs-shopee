@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { ShopeeRequest } from '../shopee.request';
-import { ShopeeStore } from '../dtos/shopee-store.dto';
-import { ShopeeStoreUpdateDto } from '../dtos/shopee-store.update.dto';
+import { ShopeeStore } from '../dtos';
+import { ShopeeStoreUpdateDto } from '../dtos';
 import { Order } from './order';
 import { Product } from './product';
 import { Logistic } from './logistic';
